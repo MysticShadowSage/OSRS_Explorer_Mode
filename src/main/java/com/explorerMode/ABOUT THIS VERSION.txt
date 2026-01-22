@@ -1,0 +1,28 @@
+Version: 1.b (I suppose)
+
+* Variable region and sub-region shapes completed.
+* Loading and saving of chunks and regions works.
+* Colours for each have been implemented.
+* Created a 'frontier' region that matches the region boundaries to cover all the non-main areas.
+    I could also just maybe add in more sub-regions or make the existing larger, but this feels more 'explorationy'.
+        -> Sadly, the rendering issue would still remain. Too many chunks being loaded is slowing everything down when
+           the map is open. Next big issue.
+
+
+==== Next Steps ====
+* Variable renders depending on the zoom and distance from the player.
+    -> Hopefully will reduce the performance lag, only rendering chunks around player.
+
+Min zoom: Faint outline and shading of discovered kingdoms, regular rendering of undiscovered boundaries.
+Med zoom levels: Subregions visible, fainter if discovered, regular if not
+Max zoom: If undiscovered, only subregions. If discovered, the chunks as usual.
+
+* Area in and around viewport are rendered, otherwise not.
+* If looking at kingdom other than current, only show if zoomed in.
+	-> Use distance based calculations maybe, there's something in the api for that.
+* For current kingdom, show the chunks and other layers as usual.
+
+Background:
+Always have the kingdom boundaries loaded.
+Load subregion on demand.
+Load chunks only for visible and current areas.
