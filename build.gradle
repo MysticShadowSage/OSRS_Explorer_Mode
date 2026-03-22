@@ -14,7 +14,7 @@ repositories {
 }
 
 def runeLiteVersion = 'latest.release'
-def pluginMainClass = 'com.example.ExamplePluginTest'
+def pluginMainClass = 'com.explorerMode.ExplorerModeTest'
 
 dependencies {
 	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion
@@ -27,7 +27,7 @@ dependencies {
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
 }
 
-group = 'com.example'
+group = 'com.explorerMode'
 version = '1.0-SNAPSHOT'
 
 tasks.withType(JavaCompile).configureEach {
@@ -67,4 +67,24 @@ tasks.register('shadowJar', Jar) {
 	group = BasePlugin.BUILD_GROUP
 	archiveClassifier.set('shadow')
 	archiveFileName.set("${rootProject.name}-${project.version}-all.jar")
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDirs = ['src/main/resources']
+			includes = ['**/*.json', '**/*.png'] // Include JSON and image files
+		}
+	}
+}
+
+processResources {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from('src/main/resources') {
+		include '**/*.json'
+	}
+}
+
+compileJava {
+	options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
 }

@@ -2,6 +2,8 @@ package com.explorerMode;
 
 import net.runelite.api.coords.WorldPoint;
 import java.util.Set;
+//For now, this class is dead code.
+//Will be used when implementing NPC unlocks soon.
 
 public class unlockNPC
 {

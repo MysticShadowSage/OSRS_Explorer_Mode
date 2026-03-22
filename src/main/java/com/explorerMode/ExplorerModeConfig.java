@@ -3,31 +3,25 @@ package com.explorerMode;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import com.explorerMode.MapMode;
 
-import java.nio.channels.FileChannel;
-
-@ConfigGroup("example")
+@ConfigGroup("explorermode")
 public interface ExplorerModeConfig extends Config
 {
 	@ConfigItem(
 			keyName = "mode",
 			name = "Map Mode",
-			description = "Select map reveal mode"
+			description = "Select the map reveal mode you want."
 	)
 	default MapMode mode()
 	{
-		return MapMode.EXPLORER;
+		return MapMode.REGULAR;
 	}
 
 	@ConfigItem(
-			keyName = "revealRadius",
-			name = "Reveal Radius",
-			description = "Radius of tiles revealed around player."
+			keyName = "showRegions",
+			name = "Show regions",
+			description = "Show the regions of all the Kingdoms of Gielinor on the map."
 	)
-	default int revealRadius()
-	{
-		return 3;
-	}
+	default boolean showRegions() { return true; }
 }
 

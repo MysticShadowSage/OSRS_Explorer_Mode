@@ -1,4 +1,32 @@
-Version: 1.b (I suppose)
+Version: 1.C (Current)
+
+* Side panel for progress mostly completed, will need adjustments for NPC unlocks and mode differences (as these parts are done)
+* Variable rendering done
+* Frontier removed, decided to adjust to full region divided by subregions, rather than having a gap in-between.
+    -> Might keep it for some areas, will see.
+* Regions are now a toggle, so that players can hide them if they want pure exploration.
+    -> I have Misthalin done (need to redo with new philosophy), Asgarnia done and am working on Kandarin.
+        -> Might also try and add in the Lumbridge Swamps & Dorgesh Kaan / Zanaris as their own subregions, tbd
+            -> Both will need quest completion triggers to be revealed though. (Check for FT1 and Lost Tribe/DTTD)
+* More fog details have been added and adjusted (started adding in last version but wasn't satisfied).
+    -> Still not sure if I should obscure the map more.
+        -> And still on the fence about hiding map icons (maybe depending on the zoom level? But that'll be v. tough.)
+* Pretty sure in the last version I had map reveal animations done, but not properly documented.
+
+==== Next Steps ====
+* Still need to work on NPC interactions (map unlock, dialogue, emotes, etc...)
+* Will slowly work away at logging each region, it's pretty tedious.
+    -> Tempted to tie them to the actual 64*64 chunks rather than my 8*8 ones or to give less detail.
+        -> The seas are gonna be a problem for how messy they'll be.
+* Once the whole regions are done, I can start working on QUEST mode (and by extension Adventurer).
+    -> I'll need to figure out a way for that to not just immediately ruin things for players with the qpc.
+        -> They'll probably just need to use EXPLORER and that's it. Not like they can re-finish quests.
+* Once NPCs are done, and they have their own unlock regions, I'll add them to the side panel.
+    -> QUESTER will probably cause me to make changes to the Panel, but that's for much later.
+
+--------------------------------------------------
+
+Version: 1.B
 
 * Variable region and sub-region shapes completed.
 * Loading and saving of chunks and regions works.
@@ -26,3 +54,23 @@ Background:
 Always have the kingdom boundaries loaded.
 Load subregion on demand.
 Load chunks only for visible and current areas.
+
+
+--------------------------------------------------------------------
+
+Version 1.A (The first working version)
+
+* I've changed the actual fog to now be a singular Area, rather than a multitude of chunks.
+    -> Took a while to figure that out, probably shouldn't have given up on the idea a while ago.
+    -> Thanks to this, each chunk discovered makes it easier to render properly, rather than creating a bunch of chunks.
+        -> Have decided to swap the regions to be tied to zoom rather than travel reveals, to maintain some kind of
+feeling of discovery and the scale of the world.
+
+* Regions and Sub-Regions are tied to zoom, rather than discovery.
+* Full world-map fog rendering is complete, with chunk based removal properly working now.
+* The lag of multiple chunk rendering is gone with the new switch.
+
+Future goals:
+Add some more detail/effects to the fog.
+    -> Still wonder if it's possible to implement a 'map' style for the undiscovered bits, rather than the 'fog'.
+Maybe add in a 'reveal' style animation or fade.
