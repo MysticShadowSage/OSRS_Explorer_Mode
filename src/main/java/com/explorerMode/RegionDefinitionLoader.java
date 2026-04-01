@@ -28,6 +28,8 @@ public class RegionDefinitionLoader
         List<String> children;
         String parent;
         boolean excludeChildren;
+        boolean hiddenUntilDiscovered;
+        String revealsRegionId;
     }
 
     public static class JsonRegionData
@@ -146,6 +148,16 @@ public class RegionDefinitionLoader
             if (def.excludeChildren)
             {
                 region.setExcludeChildren(true);
+            }
+
+            if (def.hiddenUntilDiscovered)
+            {
+                region.setHiddenUntilDiscovered(true);
+            }
+
+            if (def.revealsRegionId != null)
+            {
+                region.setRevealsRegionId(def.revealsRegionId);
             }
 
             return region;

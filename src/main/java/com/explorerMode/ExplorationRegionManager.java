@@ -174,10 +174,40 @@ public class ExplorationRegionManager
                 log.info("Discovered subregion: {}", subregion.getName());
                 loadChunksForDiscovery(subregion);
 
+                // Check if it unlocks another subregion upon entering
+                if (subregion.getRevealsRegionId() != null)
+                {
+                    ExplorationRegion linked = allRegions.get(subregion.getRevealsRegionId());
+                    if (linked != null)
+                    {
+                        // Force all chunks of the placeholder as visited
+                        for (Chunk chunk : linked.getChunks())
+                        {
+                            visitedChunks.add(chunk);
+                            plugin.revealExplorerChunk(chunk);
+                        }
+                        discoveredRegionIds.add(linked.getId());
+                        log.info("Auto-revealed linked region: {}", linked.getName());
+                    }
+                }
+
+                // After discovering a subregion, check if parent kingdom needs discovering (Mainly for 'Other Regions' section)
+                ExplorationRegion parent = subregion.getParent();
+                if (parent != null
+                        && parent.getType() == ExplorationRegion.RegionType.KINGDOM
+                        && !discoveredRegionIds.contains(parent.getId()))
+                {
+                    discoveredRegionIds.add(parent.getId());
+                    plugin.onRegionDiscovered(parent);
+                    log.info("Discovered kingdom via subregion: {}", parent.getName());
+                }
+
                 changed = true;
                 break;
             }
         }
+
+
 
         if (changed)
         {

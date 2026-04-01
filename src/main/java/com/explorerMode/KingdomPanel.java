@@ -119,6 +119,11 @@ public class KingdomPanel extends JPanel
             subName = "???????????";
             subColor = new Color(99,0,39);
         }
+        else if (sub.isHiddenUntilDiscovered() && !subDiscovered)
+        {
+            subName = "???????????";
+            subColor = new Color(99,0,39);
+        }
         else if (!subDiscovered)
         {
             // Kingdom discovered but subregion not yet visited

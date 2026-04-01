@@ -26,6 +26,14 @@ public class ExplorationRegion
     private ExplorationRegion parent = null;
     private boolean excludeChildren = false;
 
+    private boolean hiddenUntilDiscovered = false;
+    public boolean isHiddenUntilDiscovered() { return hiddenUntilDiscovered; }
+    public void setHiddenUntilDiscovered(boolean hidden) { this.hiddenUntilDiscovered  = hidden; }
+
+    private  String revealsRegionId = null;
+    public String getRevealsRegionId() { return revealsRegionId; }
+    public void setRevealsRegionId(String id) { this.revealsRegionId = id; }
+
     // Custom color for each region
     private Color regionColor = null;
 

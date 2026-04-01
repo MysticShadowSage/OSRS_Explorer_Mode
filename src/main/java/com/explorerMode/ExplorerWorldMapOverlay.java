@@ -183,15 +183,18 @@ public class ExplorerWorldMapOverlay extends Overlay
             List<PotentialLabel> potentialLabels = new ArrayList<>();
 
             // Draw regions if toggled on
+            // Need to make sure I draw the Kingdoms first, was drawing in a random order before.
             if (drawRegions) {
-                for (ExplorationRegion region : plugin.getAllRegions())
-                {
-                    Color color = getColorForRegion(region, zoomLevel);
-                    if (color.getAlpha() > 5)
-                    {
-                        drawRegion(g2d, region, mapBounds, color, zoomLevel, potentialLabels);
-                    }
-                }
+                plugin.getAllRegions().stream()
+                        .filter(region -> !region.getId().equals("world_fog") && !region.getId().equals("other_regions"))
+                        .sorted((a, b) -> a.getType().compareTo(b.getType()))
+                        .forEach(region -> {
+                            Color color = getColorForRegion(region, zoomLevel);
+                            if (color.getAlpha() > 5)
+                            {
+                                drawRegion(g2d, region, mapBounds, color, zoomLevel, potentialLabels);
+                            }
+                        });
                 drawNonOverlappingLabels(g2d, potentialLabels, mapBounds);
             }
 
@@ -560,18 +563,34 @@ public class ExplorerWorldMapOverlay extends Overlay
         // Labels - Now don't overlap, priority system and getting region bounds first help with the positioning
         if (shouldDrawLabel(region, zoomLevel))
         {
-            if (polyBounds.width > 80 && polyBounds.height > 30) {
+            if (polyBounds.width > 60 && polyBounds.height > 20) {  //Adjusted size, better for placement in smaller zones
                 String name = region.getName();
 
-                // Get center of bounding box
+                // No longer using Bounding box, struggled with regions like Taverly with weird shapes
+                // Try finding a point that's actually inside the polygon:
                 int cx = (int) Math.round(polyBounds.getCenterX());
                 int cy = (int) Math.round(polyBounds.getCenterY());
 
-                if (!polygon.contains(cx, cy)) {//If the label would be outside the polygon, don't add it
-                } else {
+                // Then walk inward until we find a point inside
+                if (!polygon.contains(cx, cy))
+                {
+                    outer:
+                    for (int dx = 0; dx <= polyBounds.width / 2; dx += 4)
+                    {
+                        for (int dy = 0; dy <= polyBounds.height / 2; dy += 4)
+                        {
+                            if (polygon.contains(cx + dx, cy + dy)) { cx = cx + dx; cy = cy + dy; break outer; }
+                            if (polygon.contains(cx - dx, cy + dy)) { cx = cx - dx; cy = cy + dy; break outer; }
+                            if (polygon.contains(cx + dx, cy - dy)) { cx = cx + dx; cy = cy - dy; break outer; }
+                            if (polygon.contains(cx - dx, cy - dy)) { cx = cx - dx; cy = cy - dy; break outer; }
+                        }
+                    }
+                }
+
+                if (polygon.contains(cx, cy))
+                {
                     int priority = getLabelPriority(region, polyBounds);
                     labels.add(new PotentialLabel(name, cx, cy, priority, polyBounds, Color.YELLOW));
-
                 }
             }
         }
@@ -660,16 +679,22 @@ public class ExplorerWorldMapOverlay extends Overlay
         // Keep track of drawn label rects to avoid overlap
         List<Rectangle> placed = new ArrayList<>();
 
-        // Offsets to try (centered first, then small nudges)
+        // Offsets to try (Expanded from before)
         final int[][] OFFSETS = new int[][]
-                {
-                        { 0, 0 },
-                        { 0, -12 }, { 0, 12 },
-                        { -18, 0 }, { 18, 0 },
-                        { -18, -12 }, { 18, -12 },
-                        { -18, 12 }, { 18, 12 },
-                        { 0, -24 }, { 0, 24 }
-                };
+        {
+                { 0, 0 },
+                { 0, -12 }, { 0, 12 },
+                { -18, 0 }, { 18, 0 },
+                { -18, -12 }, { 18, -12 },
+                { -18, 12 }, { 18, 12 },
+                { 0, -24 }, { 0, 24 },
+                { -36, 0 }, { 36, 0 },
+                { -36, -12 }, { 36, -12 },
+                { -36, 12 }, { 36, 12 },
+                { 0, -36 }, { 0, 36 },
+                { -24, -24 }, { 24, -24 },
+                { -24, 24 }, { 24, 24 }
+        };
 
         for (PotentialLabel c : candidates)
         {
