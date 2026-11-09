@@ -123,10 +123,11 @@ public class ExplorationPanel extends PluginPanel
                 .orElse(0.0);
         worldPctLabel.setText(String.format("%.1f%%", worldPct));
 
-        // Fill with the kingdoms, other than 'world'
+        // Fill with the kingdoms
         regionManager.getAllRegions().stream()
                 .filter(r -> r.getType() == ExplorationRegion.RegionType.KINGDOM)
-                .filter(r -> !r.getId().equals("world_fog"))
+                .filter(r -> !r.getId().equals("world_fog")) //Don't have 'world' as a Kingdom
+                .filter( r-> !r.getId().equals("tutorial_island")) //Rather than have this as kingdom, easier to just filter it out. Still counts for world completion though.
                 .sorted((a, b) -> a.getName().compareToIgnoreCase(b.getName()))
                 .forEach(kingdom ->
                 {

@@ -1,4 +1,33 @@
-Version: 1.C (Current)
+Version: 1.E (Currently in development - Will use a new branch just in case.)
+* Looking at restructuring the code after a few months away
+    -> Looking into using the region and chunk list from SlayToStay's Region Locker plugin, alongside it's map feature and how it works.
+    -> Consolidating several redundant or overly complicated pieces of code (the way saves work for example)
+    -> Updating the map zoom features, I think the bits I was struggling around are public now.
+--------------------------------------------------------
+
+Version: 1.D (Current)
+* Added in some changes to try and improve display of region names, wasn't showing up sometimes.
+* Made some changes to the JSON to allow for areas like Priff which is 'hidden' until the quest is done with a placeholder, and regions like Zanaris and Dorgesh Kaan which need quests.
+    -> Mainly just for 'surprise' factor, though I imagine most people won't be playing blind with this plugin.
+* Added in Kandarin, man this one took a long time. Asgarnia and Misthalin were about an hour each, this was closer to 5.
+    -> Though, it's the largest region with the most sub-regions, so hopefully that's the worst of it.
+* Added in 'Other Regions', which allows for areas not properly part of a kingdom to be added.
+* Added in Tiranwynn, Kharidian Desert, and Morytania.
+    -> All together around the same or less time as Kandarin, which is crazy.
+        -> Made a tool in AHK to capture and format the coordinates from the map website while I measure, really helps with the speed.
+
+==== Next Steps ====
+* Quester mode may at some point come, but it's not a priority.
+    -> The problem is that the game will only send the trigger upon quest completion, otherwise I'll need to check after login.
+        -> Though the REAL problem is that most people using this would probably have most/all quests done anyways already.
+            -> Not much fun in revealing the whole map basically immediately.
+* Can still maybe look into changing the fog from 'fog' to a 'map' texture maybe.
+* NPCS are still a big thing.
+    -> After the regions are all done, I think.
+
+---------------------------------------------------------------------
+
+Version: 1.C
 
 * Side panel for progress mostly completed, will need adjustments for NPC unlocks and mode differences (as these parts are done)
 * Variable rendering done

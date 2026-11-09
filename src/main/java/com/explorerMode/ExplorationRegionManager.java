@@ -262,6 +262,23 @@ public class ExplorationRegionManager
         }
     }
 
+    public void forceCompleteRegion(String regionId)
+    {
+        ExplorationRegion region = allRegions.get(regionId);
+        if (region == null) return;
+
+        discoveredRegionIds.add(regionId);
+        loadChunksForDiscovery(region);
+
+        for (Chunk chunk : region.getChunks())
+        {
+            visitedChunks.add(chunk);
+            plugin.revealExplorerChunk(chunk);
+        }
+
+        log.info("Force completed region: {}", regionId);
+    }
+
     // ========== GETTER METHODS FOR OVERLAY ==========
 
     public Set<ExplorationRegion> getUndiscoveredRegions()

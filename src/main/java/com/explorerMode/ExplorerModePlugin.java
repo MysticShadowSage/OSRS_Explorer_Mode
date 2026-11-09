@@ -95,6 +95,7 @@ public class ExplorerModePlugin extends Plugin
 
 		regionManager.setPlugin(this);
 		regionManager.loadDefaultRegions();
+		regionManager.forceCompleteRegion("tutorial_island");
 
 		initSaveFiles();
 
